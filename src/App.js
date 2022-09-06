@@ -1,23 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
-
+import Data from './Data';
+import CardList from './components/CardList';
+import { useEffect, useState } from 'react';
+import SkeletonCard from './components/SkeletonCard';
 function App() {
+  const [videos, setVideos] = useState([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+
+      setVideos(Data);
+      setLoading(false);
+    }, 2000);
+  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2 className='application-header'>welcome to the most significant website</h2>
+      {loading && <SkeletonCard loading={loading} />}
+      {!loading && videos.map((list, index) => {
+        return (
+          <section key={index} >
+            <h2 className='section-header'>{list.section}</h2>
+            <CardList list={list} />
+          </section>
+
+        )
+
+      })}
+
     </div>
   );
 }
